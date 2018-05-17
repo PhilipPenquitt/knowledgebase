@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Docker Knowlegebase"
-date:   2018-05-13 19:41:05 +0000
+title:  "Puppet Knowlegebase"
+date:   2018-05-15 19:41:05 +0000
 categories: jekyll update
 ---
 
@@ -21,7 +21,6 @@ categories: jekyll update
     1. [Volumes](#volumes)
     2. [Bindmounts](#bindmounts)
 10. [Docker-Compose](#docker-compose)
-11. [Docker-Swarm](#swarm)
 
 <h2 id="introduction">Introduction</h2>
 Der Aufbau der Docker Kommandozeile ist sehr stukturiert 
@@ -90,13 +89,6 @@ docker info
 
 
 <h2 id="network">Netzwerk</h2>
-<h2 id="swarm">Docker Swarm</h2>
-Swarm ist eine Cluster Lösung welche 2016 veröffentlicht wurde und in der Docker Engine bereits enthalten ist.
-
-
-Swarm muss per Hand aktiviert werden und bla bla hier kommt die Architektur:
-
-![DockerSwarm-Architektur]({{ "/assets/Docker-Swarm-Architektur.png" | baseurl }})
 
 
 
@@ -125,3 +117,4 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
+
