@@ -93,30 +93,34 @@ docker info
 <h2 id="swarm">Docker Swarm</h2>
 Swarm ist eine Cluster Lösung welche 2016 veröffentlicht wurde und in der Docker Engine bereits enthalten ist.
 
-
-Swarm muss per Hand aktiviert werden und bla bla hier kommt die Architektur:
+<h3 id="swarm-architektur">Swarm Architektur</h3>
+Ähnlich wie andere Container Orchestrierer gitb es bei Swarm 2 verschieden Aufgaben. Das ist zum einen der Manager und zum anderen der Worker. Die spezifischen Aufgaben sind anhand der Namen zu erkennen.
 
 ![DockerSwarm-Architektur]({{ "/assets/Docker-Swarm-Architektur.png" | baseurl }})
 
+Der oder die Manager teilen sich eine Datenbank (die Raft Datenbank) und kommunizieren mit den Workern. Die gesamte Kommunikation findet verschlüsselt statt. Sobald ein Cluster aufgesetzt wird legt dieser ein Root Certifikat an, welches für die Verschlüsselung verwendet wird.
+![DockerSwarm-Detail-Architektur]({{ "/assets/swarm-mode-complex-architekture.png" | baseurl }})
 
+<h3 id="swarm-services">Swarm Services</h3>
 
+Bevor der erste Swarm Service aktiviert werden kann muss zuerst der Swarm initialisiert werden, dazu einfach ein:
+`docker swarm init`
 
+Im Anschluss stehen allen Swarm Features zur Verfügung.
 
+<h4> Swarm Service erstellen</h4>
 
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+Docker Service erstelln der den Google DNS pinged
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+`docker service create alpine ping 8.8.8.8`
 
-Jekyll also offers powerful support for code snippets:
+```
+docker service ls
+docker service ps
+docker service update quirky_shtern --replicas 3
+```
+man kann mittels `docker container rm -f` einen dieser Container stoppen und dann mittels `docker service ps` beobachten wie er durch swarm einfach wieder neu erschaffen wird
 
-{% highlight bash %}
-echo hallo welt
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
 
 Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
