@@ -110,17 +110,35 @@ Im Anschluss stehen allen Swarm Features zur Verfügung.
 
 <h4> Swarm Service erstellen</h4>
 
-Docker Service erstelln der den Google DNS pinged
+![Docker Service Architektur]({{ "/assets/Service-architektur.png" | baseurl }})
+
+Ein Service besteht aus mehreren Tasks welche abgearbeitet werden. Diese Tasks werden in Container abgearbeitet welche auf den verfügbaren Nodes ausgeführt werden. Mittels des Replica-Sets gibt man an wie breit ein Service verfügbar sein soll.
+
+Docker Service erstellen der den Google DNS pinged
 
 `docker service create alpine ping 8.8.8.8`
 
+Alle Service anzeigen:
 ```
-docker service ls
-docker service ps
+root@Desktop-PC:~# docker service ls
+ID                  NAME                   MODE                REPLICAS            IMAGE               PORTS
+wvaxhgetfunn        musing_proskuriakova   replicated          1/1                 alpine:latest       
+```
+Detials zu einem speziellem Service ansehen (den Namen habe ich aus dem vorherigen Befehl bezogen):
+```
+root@Desktop-PC:~# docker service ps musing_proskuriakova
+ID                  NAME                     IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+ad9a4exeqlpd        musing_proskuriakova.1   alpine:latest       Desktop-PC          Running             Running 2 minutes ago
+```
+**Einen Service aktualisieren um zum Beispiel sein Replikaset zu erweitern**:
+
+```
 docker service update quirky_shtern --replicas 3
 ```
-man kann mittels `docker container rm -f` einen dieser Container stoppen und dann mittels `docker service ps` beobachten wie er durch swarm einfach wieder neu erschaffen wird
+<h5> Funktionsweise der Replikasets testen</h5>
 
+Man kann mittels `docker container rm -f` einen dieser Container stoppen und dann mittels `docker service ps` beobachten wie er durch swarm einfach wieder neu erschaffen wird
+Um das im Detail zu beobachten kan man mittels `watch -d docker service ps` sehr gut sehen wie das Replikaset wieder auf den Soll-Zusatnd aufgefüllt wird.
 
 Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
