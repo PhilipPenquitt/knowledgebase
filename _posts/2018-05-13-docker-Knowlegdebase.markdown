@@ -22,8 +22,9 @@ categories: jekyll update
     2. [Bindmounts](#bindmounts)
 10. [Docker-Compose](#docker-compose)
 11. [Docker-Swarm](#swarm)
-    1. [3-Tier-Service](#3tierservice)
-
+12. [3-Tier-Service](#3tierservice)
+    1. [Vorbereitung](#preparation)
+    2. [Overlay Network](#overlaynetwork)
 <h2 id="introduction">Introduction</h2>
 Der Aufbau der Docker Kommandozeile ist sehr stukturiert 
 
@@ -168,17 +169,41 @@ Docker Swarm Ports:
 Man kann mittels `docker container rm -f` einen dieser Container stoppen und dann mittels `docker service ps` beobachten wie er durch swarm einfach wieder neu erschaffen wird
 Um das im Detail zu beobachten kan man mittels `watch -d docker service ps` sehr gut sehen wie das Replikaset wieder auf den Soll-Zusatnd aufgefüllt wird.
 
+Um sich die Container auf anderen Nodes anzusehen:
+
+`docker node ps node2`
+
+
 <h5> Einen Service wieder stoppen</h5>
 
 Dadurch das die Container auf irgendwo laufen können und die Container immer wieder neu gestartet werden, muss en Service immer explizit entfernt werden, dies macht man auch über den Service Command: `docker service rm service-name`.
 
-<h3 id="3tierservice">3-Tier-Service</h3>
+<h2 id="3tierservice">3-Tier-Service</h2>
 
 Um die folgenden Schritte nachvollziehen zu können habe ich [play-with-docker][play-with-docker] verwendet. Man kann aber auch [docker-machine][docker-machine] verwenden(auf Windows und Mac mit dem Docker-Toolset bereits installiert), und auf diesen docker installieren. am besten mittels [get-docker][get.docker.com]
 
+<h3 id="preparation">Server für den Swarm vorbereiten</h3>
+Um einen Swarm zu erstellen muss zuerst ein Manager erstellt werden, beim erstellen muss die IP des Servers verwendet mit der ihn die anderen erreichen:
+`docker swarm init --advertise-addr 192.168.0.8`
+Der dann ausgegeben Befehl aknn verwendet werden um die weiteren Nodes in den Swarm aufzunehmen.
+
+`docker swarm join --token SW...384o 192.168.0.8:2377`
+
+Mann kann sich die token auch jederzeit wieder anzeigen lassen:
+
+`docker swarm join-token manager|worker`
+
+Sofern die Aufnahme des Servers erfolgreich war kann man das auf einem Manager Node prüfen (nur auf einem Manager) 
+`docker node ls`
+
+ auf einem Manager sich die Server anzeigen lassen. Der Stern hinter dem Namen zeigt auf welcher Maschine man aktuell ist.
+Es ist auch möglich einen Worker zu einem Manger zu heben und andersrum:
+`docker node update --role manager node2`
 
 
-
+<h3 id="overlaynetwork">Overlay Network</h3>
+Overlay Netzwerke können wie normale Netzwerke mittels `docker network create` angelegt werden. Es muss nur beachtet werden das die Option `--driver overlay` angegeben wird.
+Mit ihrer Hilfe kann man die Netze für einzelne Anwendungen/Kundensysteme trennen. Man muss lediglich beim Anlegen des Service bzw. dem Services Zugriff auf das Netzwerk geben.
 [docker-certification][docker-certification]
 
 [docker-devops-prep-guide][devops-prep-guide]
