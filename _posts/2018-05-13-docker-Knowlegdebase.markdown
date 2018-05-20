@@ -22,6 +22,7 @@ categories: jekyll update
     2. [Bindmounts](#bindmounts)
 10. [Docker-Compose](#docker-compose)
 11. [Docker-Swarm](#swarm)
+    1. [3-Tier-Service](#3tierservice)
 
 <h2 id="introduction">Introduction</h2>
 Der Aufbau der Docker Kommandozeile ist sehr stukturiert 
@@ -90,6 +91,29 @@ docker info
 
 
 <h2 id="network">Netzwerk</h2>
+
+<h2 id="dockerhub">Docker Hub</h2>
+DockerHub ist ei Repository für Docker Images. Ist ziemlich einfach zu nutzen. Repos müssen existieren bevor der Upload stattfindet.
+Image ist immer via Nutzer/Image zu erreichen. Tags sind einfach nur Pointer welche auf eine Version zeigen.
+
+Wenn ich einen Tag setzen will, und mein Image veröffentlichen möchte:
+``` 
+
+docker image tag nginx phpe/nginx  <-- ich hatte noch ein nginx Image was ich als Basis verwendet habe.
+
+docker image push phpe/nginx --> lädt mein Image hoch
+docker login                 --> falls der Nutzer nicht hinterlegt ist
+docker logout                --> falls es eine geteileter Server ist
+```
+
+<h2 id="dockerfile">Dockerfile</h2>
+
+Ein Dockerfile ist ein Textfile mit Anweisungen wie das Image durch die Dockerengine gebaut werden soll, welche Images als Basis dient etc. Bretfischer repo auf Dockerhub hat eine gut erklärtes Dockerfile, es ist auch in der Nextcloud hinterlegt.
+Es gibt einige Do's and dont's bei Dockerfiles [best-practises][best-practises]
+docker image bauen:
+
+docker image build -f docker-file -t customnginx .
+
 <h2 id="swarm">Docker Swarm</h2>
 Swarm ist eine Cluster Lösung welche 2016 veröffentlicht wurde und in der Docker Engine bereits enthalten ist.
 
@@ -130,15 +154,34 @@ root@Desktop-PC:~# docker service ps musing_proskuriakova
 ID                  NAME                     IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
 ad9a4exeqlpd        musing_proskuriakova.1   alpine:latest       Desktop-PC          Running             Running 2 minutes ago
 ```
-**Einen Service aktualisieren um zum Beispiel sein Replikaset zu erweitern**:
+<h4>Einen Service aktualisieren um zum Beispiel sein Replikaset zu erweitern</h4>
 
 ```
 docker service update quirky_shtern --replicas 3
 ```
-<h5> Funktionsweise der Replikasets testen</h5>
+
+Docker Swarm Ports:
+[Docker Swarm Ports][docker-swarm-ports]
+
+<h4> Funktionsweise der Replikasets testen</h4>
 
 Man kann mittels `docker container rm -f` einen dieser Container stoppen und dann mittels `docker service ps` beobachten wie er durch swarm einfach wieder neu erschaffen wird
 Um das im Detail zu beobachten kan man mittels `watch -d docker service ps` sehr gut sehen wie das Replikaset wieder auf den Soll-Zusatnd aufgefüllt wird.
+
+<h5> Einen Service wieder stoppen</h5>
+
+Dadurch das die Container auf irgendwo laufen können und die Container immer wieder neu gestartet werden, muss en Service immer explizit entfernt werden, dies macht man auch über den Service Command: `docker service rm service-name`.
+
+<h3 id="3tierservice">3-Tier-Service</h3>
+
+Um die folgenden Schritte nachvollziehen zu können habe ich [play-with-docker][play-with-docker] verwendet. Man kann aber auch [docker-machine][docker-machine] verwenden(auf Windows und Mac mit dem Docker-Toolset bereits installiert), und auf diesen docker installieren. am besten mittels [get-docker][get.docker.com]
+
+
+
+
+[docker-certification][docker-certification]
+
+[docker-devops-prep-guide][devops-prep-guide]
 
 Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
@@ -147,3 +190,10 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
+[best-practises]: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+[play-with-docker]: play-with-docker.Commands
+[docker-machine]: https://docs.docker.com/machine/
+[get.docker.com]: https://get.docker.com/
+[docker-swarm-ports]:https://www.bretfisher.com/docker-swarm-firewall-ports/
+[devops-prep-guide]: https://github.com/DevOps-Academy-Org/dca-prep-guide
+[docker-certification]:https://www.bretfisher.com/docker-certified-associate/
