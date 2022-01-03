@@ -1,6 +1,12 @@
 # knowledgebase
 
-Knowlegebase auf Basis der Tools Marterial for Mkdocs
+Knowlegebase auf Basis der Tools Marterial for Mkdocs.
+
+## Bauen der Seiten
+
+```bash
+docker run --rm -it -p 8000:8000 -v C:\Path\to\git\knowledgebase\mkdocs:/docs squidfunk/mkdocs-material
+```
 
 Quellen:
 
