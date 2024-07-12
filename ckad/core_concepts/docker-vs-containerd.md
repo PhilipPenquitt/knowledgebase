@@ -11,7 +11,7 @@ Das Problem für Docker war, das es vor den `oci` Standards entwickelt wurde und
 
 Kubernetes entwickelte deswegen `dockershim` ein alternatives Interface um direkt Docker zu unterstützen.
 
-![Docker Architektur bis v.1.24](../images/1.24-architektur.png)
+![Docker Architektur bis v.1.24](/ckad/images/1.24-architektur.png)
 
 Docker besteht aus deutlich mehr Komponenten als der Runtime, unter anderem `runC` der Docker eigenen Container Runtime welche durch `containerD` gesteuert
 wird. Nun ist Docker als ganzes nicht mit der `cri` kompatibel, aber
@@ -21,4 +21,4 @@ entsprechen, konnte ContainerD als Runtime mit Kubernetes verwendet werden.
 Da `dockershim` schwer zu unterstützen war, entschied man sich in Version 1.24.
 dazu es zu entfernen und nur noch runtime's die kompatible mit cri sind zu erlauben
 
-![Architektur ab 1.24 und später](../images/1.24-und-spaeter-architektur.png)
+![Architektur ab 1.24 und später](/ckad/images/1.24-und-spaeter-architektur.png)
