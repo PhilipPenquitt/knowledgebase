@@ -1,0 +1,28 @@
+{
+    "description": "Ändere Backspace auf ISO Format",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "hyphen",
+                "modifiers": {
+                    "mandatory": [
+                        "left_option"
+                    ],
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "7",
+                    "modifiers": [
+                        "left_option",
+                        "left_shift"
+                    ]
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}

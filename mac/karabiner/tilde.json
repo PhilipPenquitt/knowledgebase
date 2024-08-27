@@ -1,0 +1,27 @@
+{
+    "description": "Change Tilde to ISO Format",
+    "manipulators": [
+        {
+            "from": {
+                "key_code": "close_bracket",
+                "modifiers": {
+                    "mandatory": [
+                        "left_option"
+                    ],
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [
+                {
+                    "key_code": "n",
+                    "modifiers": [
+                        "left_option"
+                    ]
+                }
+            ],
+            "type": "basic"
+        }
+    ]
+}
