@@ -47,7 +47,7 @@ matchlabels damit das ReplicaSet die Pods erkennt welche es zu steuern hat.
 ## Kommandos
 
 ```bash
-kubectl create -f deployment_definition.yml
+kubectl create -f deployment_definition.yml # Das create Kommando kann auch eine Hülle der entsprechenden Ressource anlegen
 kubectl get deployments
 kubectl delete deployment <name> # löscht sofort die Pods
 kubectl replace -f replica_definition # um die Definition anzupassen
